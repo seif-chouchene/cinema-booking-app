@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="login-container">
+     <form action="/login" method="post">
+          <h1>Login</h1>
+          <input name="email" type="email" placeholder="E-mail" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <a href="/register">register</a>
+    </form>
+</div>
+
+{% endblock %}

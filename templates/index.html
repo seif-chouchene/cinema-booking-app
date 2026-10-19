@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<title>movies</title>
+     <div class="page">
+    <h1>Find a movie</h1>
+    <p>
+
+      {% if session.get("customer_id") %}
+           <a class="btn" href="/registrants">my bookings</a>
+           <a class="btn" href="/logout">logout</a>
+      {% else %}
+          <a class="btn" href="/login">login</a>
+          <a class="btn" href="/register">register</a>
+        {% endif %}
+    </p>
+    <p id="coordinates"></p>
+      <form action="/search" method="post">
+        <input name="q" placeholder="search" type="search">
+        <button type="submit">search</button>
+        <button type="button" id="location">use my location</button>
+      </form>
+     </div>
+     <script>
+      document.querySelector("#location").addEventListener('click',function(){
+
+        navigator.geolocation.getCurrentPosition(function(position){
+
+          document.querySelector("#coordinates").innerHTML=
+          `Latitude=${position.coords.latitude}<br>
+          Longitude=${position.coords.longitude}`;
+        });
+      
+      });
+     
+     
+      </script>
+
+
+{% endblock %}

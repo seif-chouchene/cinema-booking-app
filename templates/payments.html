@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+
+<title>Payment</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="login-container">
+    <form action="/payments" method="post">
+        <h1>Payment</h1>
+        <input id="booking_id" name="booking_id" type="hidden" value="{{ booking['id'] }}">
+        <input id="card_name" name="card_name" type="text" placeholder="Name on card" required>
+        <input id="card_number" name="card_number" type="text" inputmode="numeric" placeholder="Card number" maxlength="19" required>
+        <input id="expiry" name="expiry" type="text" placeholder="MM/YY" maxlength="5" required>
+        <input id="cvv" name="cvv" type="password" inputmode="numeric" placeholder="CVV" maxlength="3" required>
+        <button type="submit">Pay</button>
+        <a href="/registrants">Back to bookings</a>
+    </form>
+</div>
+ <script>
+    
+    let number=document.querySelector("#card_number");
+    let expiry=document.querySelector("#expiry");
+    let cvv=document.querySelector("#cvv");
+
+    number.addEventListener('input',function(){
+        let digits=number.value.replace(/\D/g,"").slice(0,16);
+        /* replacement of this loop */
+        /* number.value=digits.replace(/(.{4})g/, "$1").trim();*/
+        let formattednumber="";
+        for(let i=0;i<digits.length;i++){
+            formattednumber+=digits[i];
+            if((i+1)%4===0 && i!=(digits.length-1)){
+                formattednumber +=" ";
+            }
+        }
+        number.value=formattednumber;
+    });
+
+        expiry.addEventListener("input",function(){
+            let digits=expiry.value.replace(/\D/g,"").slice(0,4);
+            if(digits.length>2){
+                digits=digits.slice(0,2)+"/"+digits.slice(2);
+            }
+            expiry.value=digits;
+        });
+        cvv.addEventListener("input",function(){
+            cvv.value=cvv.value.replace(/\D/g,"").slice(0,3);
+        });
+
+
+
+
+        
+
+
+
+ </script>
+
+{% endblock %}

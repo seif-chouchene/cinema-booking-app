@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<title>Booking update</title>
+
+<div class="login-container">
+    <form action="/update" method="post">
+        <h1>edit booking</h1>
+        <input name="booking_id" type="hidden" value="{{booking['id']}}">
+        <h2>Seats</h2>
+        <input name="seats" type="number" value="{{booking['seats']}}" required>
+        <button type="submit">save</button>
+        <a href="/registrants">cancel</a>
+    </form>
+</div>
+
+
+{% endblock %}

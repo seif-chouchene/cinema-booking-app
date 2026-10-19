@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+     <title>Bookings</title>
+     <div class="page">
+    <h1>Bookings</h1>
+    <div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+            <th>name</th>
+            <th>movie</th>
+            <th>room_number</th>
+            <th>seats</th>
+            <th>showdate</th>
+            <th>showtime</th>
+            <th>amount</th>
+            <th>status</th>
+            <th></th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking["name"] }}</td>
+                <td>{{ booking["title"] }}</td>
+                <td>{{ booking["room_number"] }}</td>
+                <td>{{booking["seats"]}}</td>
+            <td>{{ booking["show_date"] }}</td>
+            <td>{{ booking["show_time"] }}</td>
+            <td>{{ booking["total"] }}</td>
+            <td>{{ booking["status"] }}</td>
+            <td>
+                {% if booking["status"]=="unpaid" %}   
+                <form action="/payments" method="get">
+                    <input name="booking_id" type="hidden" value="{{booking['id']}}">
+                    <button type="submit">Pay</button>
+                </form>
+                {% endif %}
+            </td>
+            <td>
+                {% if booking["status"]=="unpaid"%}
+                <form action="/edit" method="get">
+                <input name="booking_id" type="hidden" value="{{booking['id']}}">
+                <td>
+                <button type="submit">edit</button>
+                </td>
+                <td></td>
+            </form>
+            {% endif %}
+        </td>
+            <td><form action="/deregister" method="post">
+                <input name="id" type="hidden" value="{{booking['id']}}">
+                <button type="submit">deregister</button>
+            </form>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    </div>
+     </div>
+
+     <a class="btn" href="/">back home</a>
+
+   
+   
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<title>Register</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="register-container">
+
+    <form action="/register" method="post">
+        <h1>Create Account</h1>
+        <input name="first_name" type="text" placeholder="First name" required>
+        <input name="last_name" type="text" placeholder="Last name" required>
+        <input name="email" type="email" placeholder="E-mail" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <input name="confirm_password" type="password" placeholder="Confirm password" required>
+        <button type="submit"> Create Account </button>
+        <a href="/login">Already have an account? Log in</a>
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="notice">
+
+<h1 id="registered" style="color: aquamarine;">you re registered succesefully</h1>
+ <a class="btn" href="/">Back to home</a>
+<script>
+        function blink() {
+          let p = document.querySelector("#registered");
+          if (p.style.visibility == "hidden") {
+            p.style.visibility = "visible";
+        }
+        else {
+            p.style.visibility = "hidden";
+        }
+    }
+
+    window.setInterval(blink, 500);
+
+     </script>
+</div>
+{% endblock %}

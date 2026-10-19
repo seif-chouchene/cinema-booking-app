@@ -1,0 +1,28 @@
+
+{% extends "layout.html" %}
+
+{% block body %}
+<title>movies</title>
+<div class="page">
+     <h1>Results</h1>
+     <ul class="results">
+          {% for showtime in showtimes %}
+               <li>
+                    <strong>{{ showtime["title"] }}</strong><br>
+                    {{showtime["price"]}} per seat<br>
+                    {{showtime["show_date"]}}<br>
+                    {{showtime["show_time"]}}<br>
+                    room{{showtime["room_number"]}}
+                    <form action="/book" method="post">
+                         <input name="showtime_id" type="hidden" value="{{showtime['id']}}">
+                         <input name="seats" type="number" min="1" max="10" value="1" required>
+                         <button type="submit">book</button> 
+                    </form>
+               </li>
+            {% else %}
+                 <li class="empty">No movies found</li>
+            {% endfor %}
+         </ul>
+         <a class="btn" href="/">back</a>
+</div>
+{% endblock %}

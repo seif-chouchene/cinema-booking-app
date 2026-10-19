@@ -1,0 +1,514 @@
+/* ==========================================================
+   Movie booking app
+   Tokens -> base -> forms -> auth tickets -> pages -> tables
+   ========================================================== */
+
+:root {
+  color-scheme: light dark;
+  --bg: #f4f2f8;
+  --surface: #ffffff;
+  --ink: #1c1730;
+  --muted: #655e7a;
+  --line: #dcd7e8;
+  --field: #f8f7fb;
+  --accent: #a8203a;
+  --accent-ink: #ffffff;
+  --accent-hover: #8c1a30;
+  --danger: #b3261e;
+  --ring: rgba(168, 32, 58, 0.3);
+  --shadow: 0 1px 2px rgba(28, 23, 48, 0.06), 0 14px 34px -14px rgba(28, 23, 48, 0.22);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14111c;
+    --surface: #1e1a2b;
+    --ink: #f1ecf7;
+    --muted: #a69fb8;
+    --line: #342e47;
+    --field: #171421;
+    --accent: #f2b84b;
+    --accent-ink: #1a1205;
+    --accent-hover: #ffc968;
+    --danger: #ff7a8c;
+    --ring: rgba(242, 184, 75, 0.4);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -16px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* ---------- base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- inputs ---------- */
+
+input:not([type="hidden"]) {
+  width: 100%;
+  min-width: 0;
+  padding: 0.8rem 0.95rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+input::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+input:not([type="hidden"]):hover {
+  border-color: var(--muted);
+}
+
+input:not([type="hidden"]):focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* only flag invalid once the user has typed something */
+input:not(:placeholder-shown):invalid {
+  border-color: var(--danger);
+}
+
+/* keep browser autofill from turning fields yellow */
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink);
+  box-shadow: 0 0 0 1000px var(--field) inset;
+  transition: background-color 9999s ease-out;
+}
+
+/* ---------- buttons (button + a.btn) ---------- */
+
+button,
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.1rem;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+button:hover,
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+button:active,
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* small outlined buttons used inside tables */
+.btn-quiet,
+.btn-danger {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: transparent;
+  border-color: var(--line);
+}
+
+.btn-quiet:hover {
+  background: var(--field);
+  border-color: var(--muted);
+}
+
+.btn-danger {
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  color: #ffffff;
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---------- auth pages (login + register) ---------- */
+
+.login-container,
+.register-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+:is(.login-container, .register-container) form {
+  width: 100%;
+  max-width: 400px;
+  display: grid;
+  gap: 0.9rem;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+/* the ticket tear line under the heading */
+:is(.login-container, .register-container) form h1 {
+  margin: 0 0 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed var(--line);
+}
+
+:is(.login-container, .register-container) form button {
+  margin-top: 0.4rem;
+}
+
+:is(.login-container, .register-container) form a {
+  justify-self: center;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+:is(.login-container, .register-container) form a:hover {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+}
+
+.register-container form {
+  max-width: 440px;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* everything spans both columns on register, except the two name fields */
+.register-container form > * {
+  grid-column: 1 / -1;
+}
+
+.register-container form > input[name="first_name"],
+.register-container form > input[name="last_name"] {
+  grid-column: auto;
+}
+
+/* ---------- content pages ---------- */
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+}
+
+.search {
+  display: flex;
+  gap: 0.6rem;
+  max-width: 520px;
+}
+
+.search button {
+  white-space: nowrap;
+}
+
+.results {
+  max-width: 520px;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.results li {
+  padding: 0.9rem 0.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.empty {
+  color: var(--muted);
+}
+
+/* ---------- registrants table ---------- */
+
+.table-wrap {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+tbody tr + tr td {
+  border-top: 1px solid var(--line);
+}
+
+tbody tr:hover {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+td form {
+  margin: 0;
+}
+
+/* ---------- error + success ---------- */
+
+.notice {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 12vh 1.25rem 2rem;
+  text-align: center;
+}
+
+.notice p {
+  color: var(--muted);
+}
+
+.notice img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto 0;
+  border-radius: 12px;
+}
+
+.notice .btn {
+  margin-top: 1rem;
+}
+
+/* ---------- payment page ---------- */
+
+.payment-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.payment-container form {
+  width: 100%;
+  max-width: 440px;
+  display: grid;
+  gap: 0.9rem;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.payment-container form h1 {
+  margin: 0 0 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed var(--line);
+}
+
+.payment-container form button {
+  margin-top: 0.4rem;
+}
+
+.payment-container form > a {
+  justify-self: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.payment-container form > a:hover {
+  color: var(--accent);
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0.95rem;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.method {
+  position: relative;
+  display: block;
+  padding: 0.7rem 0.4rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.method:hover {
+  border-color: var(--muted);
+}
+
+.method input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.method:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  color: var(--accent);
+}
+
+.method:has(input:focus-visible) {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.card-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.card-fields[hidden] {
+  display: none;
+}
+
+.card-fields input[name="card_name"],
+.card-fields input[name="card_number"] {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 480px) {
+  .payment-container {
+    align-items: flex-start;
+    padding: 8vh 1rem 1rem;
+  }
+
+  .payment-container form {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .methods {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 480px) {
+  .login-container,
+  .register-container {
+    align-items: flex-start;
+    padding: 12vh 1rem 1rem;
+  }
+
+  :is(.login-container, .register-container) form {
+    padding: 1.5rem 1.25rem;
+  }
+
+  /* stack first/last name on tiny screens */
+  .register-container form {
+    grid-template-columns: 1fr;
+  }
+
+  .register-container form > input[name="first_name"],
+  .register-container form > input[name="last_name"] {
+    grid-column: 1 / -1;
+  }
+
+  .search {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

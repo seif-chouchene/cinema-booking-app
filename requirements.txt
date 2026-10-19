@@ -1,0 +1,5 @@
+Flask
+Flask-Session
+psycopg
+wraps
+dotenv
